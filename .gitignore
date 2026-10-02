@@ -1,0 +1,15 @@
+.venv/
+.venv-pyonenote/
+.tools/
+.idea/
+.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.pylint.d/
+dist/
+build/
+exports/
+AGENTS.md
+SPEC.md

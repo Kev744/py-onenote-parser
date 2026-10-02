@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyonenote-extractor"
+version = "0.1.0"
+description = "Microsoft-documented OneNote binary parsing and content export"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pydantic>=2.10,<3",
+  "markdownify>=1.0,<2",
+  "pypdf>=6,<7",
+  "python-docx>=1.1,<2",
+  "odfpy>=1.4,<2",
+  "weasyprint>=70,<71",
+]
+
+[project.scripts]
+pyonenote = "pyonenote.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "black>=25", "mypy>=1.15", "pylint>=3.3"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pyonenote"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"Main.py" = "Main.py"
+"OneDocument.py" = "OneDocument.py"
+"SOAPFileReader.py" = "SOAPFileReader.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/pyonenote", "/Main.py", "/OneDocument.py", "/SOAPFileReader.py", "/README.md", "/pyproject.toml", "/uv.lock"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.black]
+target-version = ["py310"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+explicit_package_bases = true
+namespace_packages = true
+
+[tool.pylint.main]
+py-version = "3.10"
+source-roots = ["."]
+
+[tool.pylint.typecheck]
+ignored-classes = ["FieldInfo", "pydantic.fields.FieldInfo"]
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.messages_control]
+disable = ["too-few-public-methods", "duplicate-code"]
